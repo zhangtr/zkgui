@@ -7,6 +7,8 @@ Requirements
 ====================
 Requires Java 11+ to run.
 
+You may find binaries available for download:  - [Windows](https://github.com/zhangtr/zkgui/releases/download/1.0/zkgui.zip)
+
 
 Technology Stack
 ====================
