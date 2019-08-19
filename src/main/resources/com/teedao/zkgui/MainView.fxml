@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<VBox fx:id="root" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1"
+      fx:controller="com.teedao.zkgui.controllers.MainViewController"
+      xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <SplitPane dividerPositions="0.28" focusTraversable="true" minHeight="200"  VBox.vgrow="ALWAYS" nodeOrientation="LEFT_TO_RIGHT" >
+            <AnchorPane maxHeight="Infinity" >
+                <VBox minHeight="100" fx:id="leftBox" maxHeight="Infinity" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+                    <TitledPane animated="false" collapsible="false" prefHeight="-1.0" prefWidth="-1.0" maxHeight="80.0" minHeight="80.0" text="ZooKeeper Server">
+                        <content>
+                            <HBox alignment="CENTER" >
+                                <TextField fx:id="uriField" prefHeight="40" prefWidth="220" promptText="X.X.X.X:2181"/>
+                                <Button mnemonicParsing="false" fx:id="connectBtn" alignment="BASELINE_LEFT" prefHeight="40"  text="connect" />
+                            </HBox>
+                        </content>
+                    </TitledPane>
+                    <TitledPane animated="true"  maxHeight="Infinity" text="Nodes" VBox.vgrow="ALWAYS" >
+                        <content>
+                            <AnchorPane prefHeight="-1.0" maxHeight="Infinity" prefWidth="-1.0">
+                                <TreeView fx:id="nodeTree" showRoot="false" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+                                    <TreeItem></TreeItem>
+                                </TreeView>
+                            </AnchorPane>
+                        </content>
+                    </TitledPane>
+                </VBox>
+            </AnchorPane>
+            <AnchorPane  maxHeight="Infinity" maxWidth="Infinity">
+                <HBox prefHeight="40.0" maxWidth="Infinity" alignment="CENTER_LEFT" AnchorPane.leftAnchor="20">
+                    <ToggleButton text="BLACK" fx:id="themeBtn"></ToggleButton>
+                </HBox>
+                <TabPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="40" tabClosingPolicy="UNAVAILABLE">
+                    <tabs>
+                        <Tab text="Node Data" >
+                            <content >
+                                <VBox maxHeight="Infinity" maxWidth="Infinity" alignment="TOP_LEFT" spacing="20">
+                                    <padding>
+                                        <Insets bottom="5.0" left="20.0" right="20.0" top="5.0" />
+                                    </padding>
+                                    <TextArea fx:id="nodeDataText" ></TextArea>
+
+                                    <Button text="submit" fx:id="submitBtn"  alignment="BASELINE_LEFT">
+
+                                    </Button>
+                                </VBox>
+                            </content>
+                        </Tab>
+                        <Tab text="Node Metadata">
+                            <content>
+                                <GridPane  hgap="10.0" fx:id="metaForm">
+                                    <padding>
+                                        <Insets bottom="5.0" left="20.0" right="20.0" top="5.0" />
+                                    </padding>
+                                    <columnConstraints>
+                                        <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="248.0" minWidth="10.0" prefWidth="60.0"/>
+                                        <ColumnConstraints hgrow="ALWAYS" maxWidth="245.0" minWidth="-Infinity" prefWidth="230.0"/>
+                                    </columnConstraints>
+                                    <rowConstraints>
+                                        <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES"/>
+                                        <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES"/>
+                                        <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES"/>
+                                        <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES"/>
+                                        <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES"/>
+                                        <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES"/>
+                                        <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES"/>
+                                        <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES"/>
+                                        <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES"/>
+                                        <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES"/>
+                                        <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES"/>
+                                    </rowConstraints>
+                                    <children>
+                                        <TextField fx:id="aclVersion" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                                        <TextField fx:id="createTime" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                                        <TextField fx:id="childrenVersion" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                                        <TextField fx:id="creationId" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                                        <TextField fx:id="dataLength" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+                                        <TextField fx:id="ephemeralOwner" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+                                        <TextField fx:id="lastModifyTime" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+                                        <TextField fx:id="modifyId" GridPane.columnIndex="1" GridPane.rowIndex="7"/>
+                                        <TextField fx:id="numOfChildren" GridPane.columnIndex="1" GridPane.rowIndex="8"/>
+                                        <TextField fx:id="nodeId" GridPane.columnIndex="1" GridPane.rowIndex="9"/>
+                                        <TextField fx:id="dataVersion" GridPane.columnIndex="1" GridPane.rowIndex="10"/>
+                                        <Label text="ACL Version:" GridPane.rowIndex="0"/>
+                                        <Label text="Creation Time:" GridPane.rowIndex="1"/>
+                                        <Label text="Children Version:" GridPane.rowIndex="2"/>
+                                        <Label text="Creation ID:" GridPane.rowIndex="3"/>
+                                        <Label text="Data Length:" GridPane.rowIndex="4"/>
+                                        <Label text="Ephemeral Owner:" GridPane.rowIndex="5"/>
+                                        <Label text="Last Modify Time:" GridPane.rowIndex="6"/>
+                                        <Label text="Modified ID:" GridPane.rowIndex="7"/>
+                                        <Label text="Number Of Children:" GridPane.rowIndex="8"/>
+                                        <Label text="Node ID:" GridPane.rowIndex="9"/>
+                                        <Label text="Data Version:" GridPane.rowIndex="10"/>
+                                    </children>
+                                </GridPane>
+                            </content>
+                        </Tab>
+                        <Tab text="Node ACLs">
+                            <content>
+                                <GridPane  hgap="10.0" fx:id="aclForm">
+                                    <padding>
+                                        <Insets bottom="5.0" left="20.0" right="20.0" top="5.0" />
+                                    </padding>
+                                    <columnConstraints>
+                                        <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="248.0" minWidth="10.0" prefWidth="60.0"/>
+                                        <ColumnConstraints hgrow="ALWAYS" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="230.0"/>
+                                    </columnConstraints>
+                                    <rowConstraints>
+                                        <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES"/>
+                                        <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES"/>
+                                        <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES"/>
+                                    </rowConstraints>
+                                    <children>
+                                        <TextField fx:id="schema" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                                        <TextField fx:id="id" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                                        <TextField fx:id="permissions" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                                        <Label text="Schema:" GridPane.rowIndex="0"/>
+                                        <Label text="ID:" GridPane.rowIndex="1"/>
+                                        <Label text="Permissions:" GridPane.rowIndex="2"/>
+                                    </children>
+                                </GridPane>
+                            </content>
+                        </Tab>
+                    </tabs>
+                </TabPane>
+            </AnchorPane>
+        </SplitPane>
+        <HBox fx:id="bottom" prefHeight="30.0" prefWidth="1200.0">
+            <children>
+
+            </children>
+        </HBox>
+    </children>
+</VBox>

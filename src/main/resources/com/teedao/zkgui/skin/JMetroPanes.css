@@ -1,0 +1,4 @@
+/* Layout containers */
+Pane, AnchorPane, BorderPane, DialogPane, FlowPane, GridPane, HBox, StackPane, TextFlow, TilePane,TabPane, VBox ,SplitPane,ScrollPane{
+    -fx-background: background_color;
+}

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.*?>
+<DialogPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:id="newNode"
+            fx:controller="com.teedao.zkgui.controllers.NewNodeDialog"
+            maxWidth="-Infinity" minWidth="-Infinity"
+            prefHeight="200.0" prefWidth="400.0">
+    <content>
+        <GridPane prefHeight="160.0" prefWidth="300.0">
+            <columnConstraints>
+                <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="100.0" minWidth="20.0" prefWidth="60.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="-Infinity" prefWidth="180.0"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES"/>
+                <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES"/>
+                <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES"/>
+            </rowConstraints>
+            <children>
+                <TextField fx:id="name" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                <TextField fx:id="value" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                <ChoiceBox fx:id="mode" GridPane.columnIndex="1" GridPane.rowIndex="2" prefWidth="180">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="PERSISTENT"/>
+                            <String fx:value="PERSISTENT_SEQUENTIAL"/>
+                            <String fx:value="EPHEMERAL"/>
+                            <String fx:value="EPHEMERAL_SEQUENTIAL"/>
+                        </FXCollections>
+                    </items>
+                </ChoiceBox>
+                <Label text="Node Name:" GridPane.rowIndex="0"/>
+                <Label text="Node Value:" GridPane.rowIndex="1"/>
+                <Label text="CreateMode:" GridPane.rowIndex="2"/>
+            </children>
+        </GridPane>
+    </content>
+    <buttonTypes>
+        <ButtonType fx:constant="CANCEL"/>
+        <ButtonType fx:constant="OK"/>
+    </buttonTypes>
+</DialogPane>

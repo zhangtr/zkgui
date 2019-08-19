@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.teedao</groupId>
+    <artifactId>zkgui</artifactId>
+    <version>1.0</version>
+
+    <name>zkgui</name>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.compilerVersion>11</maven.compiler.compilerVersion>
+        <javafx.version>11</javafx.version>
+        <projectrelease.version>1.0</projectrelease.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.12.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.101tec</groupId>
+            <artifactId>zkclient</artifactId>
+            <version>0.11</version>
+        </dependency>
+    </dependencies>
+
+
+    <build>
+        <finalName>zkgui</finalName>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>11</source>
+                    <target>11</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.1.2</version>
+                <configuration>
+                    <outputDirectory>${project.build.directory}/jpackage-app</outputDirectory>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.1.1</version>
+                <executions>
+                    <execution>
+                        <id>copy</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <includeScope>runtime</includeScope>
+                            <outputDirectory>${project.build.directory}/jpackage-app/lib</outputDirectory>
+                            <excludeGroupIds>org.openjfx</excludeGroupIds>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>fxrelease-linux</id>
+            <activation>
+                <os>
+                    <family>linux</family>
+                </os>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>1.6.0</version>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <executable>${env.JPACKAGE_HOME}/bin/jpackage</executable>
+                            <arguments>
+                                <argument>-o</argument>
+                                <argument>${project.build.directory}</argument>
+                                <argument>-n</argument>
+                                <argument>zkgui</argument>
+
+                                <argument>--resource-dir</argument>
+                                <argument>${project.basedir}/src/main/deploy/jpackage</argument>
+
+                                <argument>--icon</argument>
+                                <argument>${project.basedir}/src/main/deploy/jpackage/zkgui.png</argument>
+
+                                <argument>-i</argument>
+                                <argument>${project.build.directory}/jpackage-app</argument>
+
+                                <argument>--main-class</argument>
+                                <argument>com.teedao.zkgui.App</argument>
+
+                                <argument>--main-jar</argument>
+                                <argument>zkgui.jar</argument>
+
+                                <argument>--app-version</argument>
+                                <argument>${projectrelease.version}</argument>
+
+                                <argument>--license-file</argument>
+                                <argument>${project.basedir}/LICENSE</argument>
+
+                                <argument>--temp-root</argument>
+                                <argument>${project.build.directory}/jpackage</argument>
+
+                                <argument>--runtime-image</argument>
+                                <argument>${env.JAVA_HOME}</argument>
+
+                                <argument>@${project.basedir}/src/main/deploy/jpackage/common.options</argument>
+                                <argument>@${project.basedir}/src/main/deploy/jpackage/linux.options</argument>
+                                <argument>--verbose</argument>
+                            </arguments>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>fxrelease-windows</id>
+            <activation>
+                <os>
+                    <family>windows</family>
+                </os>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>1.6.0</version>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <executable>${env.JPACKAGE_HOME}/bin/jpackage</executable>
+                            <mainClass>com.teedao.zkgui.App</mainClass>
+                            <arguments>
+                                <argument>-o</argument>
+                                <argument>${project.build.directory}</argument>
+                                <argument>-n</argument>
+                                <argument>zkgui</argument>
+                                <argument>--resource-dir</argument>
+                                <argument>${project.basedir}/src/main/deploy/jpackage</argument>
+                                <argument>--icon</argument>
+                                <argument>${project.basedir}/src/main/deploy/jpackage/zkgui.ico</argument>
+                                <argument>-i</argument>
+                                <argument>${project.build.directory}/jpackage-app</argument>
+                                <argument>--main-class</argument>
+                                <argument>com.teedao.zkgui.App</argument>
+                                <argument>--main-jar</argument>
+                                <argument>zkgui.jar</argument>
+                                <argument>--app-version</argument>
+                                <argument>${projectrelease.version}</argument>
+                                <argument>--license-file</argument>
+                                <argument>${project.basedir}/LICENSE</argument>
+                                <argument>--temp-root</argument>
+                                <argument>${project.build.directory}/jpackage</argument>
+                                <argument>--runtime-image</argument>
+                                <argument>D:\dev\myjava</argument>
+                                <argument>@${project.basedir}/src/main/deploy/jpackage/common.options</argument>
+                                <argument>@${project.basedir}/src/main/deploy/jpackage/windows.options</argument>
+                                <argument>--verbose</argument>
+                            </arguments>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+</project>
