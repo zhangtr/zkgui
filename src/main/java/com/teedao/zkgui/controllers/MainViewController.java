@@ -6,7 +6,6 @@ import com.teedao.zkgui.model.NewNodeRequest;
 import com.teedao.zkgui.model.NodeAcl;
 import com.teedao.zkgui.model.NodeDetailInfo;
 import com.teedao.zkgui.model.NodeMetaData;
-import com.teedao.zkgui.service.ZkClientHelper;
 import com.teedao.zkgui.service.ZkService;
 import com.teedao.zkgui.skin.JMetro;
 import com.teedao.zkgui.skin.Style;
@@ -95,7 +94,7 @@ public class MainViewController implements Initializable {
     }
 
     private void reLoadZooTree(String uri) {
-        ZkClientHelper.current(uri);
+        ZkService.current(uri);
         nodeTree.setCellFactory(LazyTreeCell.forTreeView("Loading...", MainViewController::pathToString));
         TreeViewUtils.installSelectionBugWorkaround(nodeTree);
         ZooPath fsRoot = new ZooPath(null, "/");

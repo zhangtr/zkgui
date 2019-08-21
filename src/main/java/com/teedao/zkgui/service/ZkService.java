@@ -22,6 +22,10 @@ public class ZkService {
         CREATE_MODEL_MAP.put("EPHEMERAL_SEQUENTIAL", 3);
     }
 
+    public static synchronized void current(String hostPort) {
+        ZkClientHelper.current(hostPort);
+        logger.info("zookeeper server: {} ", hostPort);
+    }
 
     public static void addNode(NewNodeRequest request) throws Exception {
         int model = CREATE_MODEL_MAP.get(request.getMode());
