@@ -31,7 +31,7 @@
             </AnchorPane>
             <AnchorPane  maxHeight="Infinity" maxWidth="Infinity">
                 <HBox prefHeight="40.0" maxWidth="Infinity" alignment="CENTER_LEFT" AnchorPane.leftAnchor="20">
-                    <ToggleButton text="BLACK" fx:id="themeBtn"></ToggleButton>
+                    <ToggleButton text="DARK" fx:id="themeBtn"></ToggleButton>
                 </HBox>
                 <TabPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="40" tabClosingPolicy="UNAVAILABLE">
                     <tabs>
@@ -41,11 +41,8 @@
                                     <padding>
                                         <Insets bottom="5.0" left="20.0" right="20.0" top="5.0" />
                                     </padding>
-                                    <TextArea fx:id="nodeDataText" ></TextArea>
-
-                                    <Button text="submit" fx:id="submitBtn"  alignment="BASELINE_LEFT">
-
-                                    </Button>
+                                    <TextArea fx:id="nodeDataText" wrapText="true"></TextArea>
+                                    <Button text="submit" fx:id="submitBtn"  alignment="BASELINE_LEFT"></Button>
                                 </VBox>
                             </content>
                         </Tab>

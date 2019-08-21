@@ -29,10 +29,10 @@ public class ZkClientHelper {
 
 
     public static synchronized void current(String hostPort) {
-        logger.info("connect to :{}",hostPort);
+        logger.debug("connect to :{}", hostPort);
         currentHost = hostPort;
         connect(currentHost);
-        logger.info("connect success");
+        logger.debug("connect success");
     }
 
 
@@ -51,11 +51,13 @@ public class ZkClientHelper {
     public static void loadChildren(ZooPath parentPath) {
         ZkClient connect = connect(currentHost);
         List<String> list = connect.getChildren(parentPath.getFullName());
+        logger.debug("load nodes [{}]:{}", parentPath, list);
         parentPath.addChildren(list);
     }
 
 
     public static boolean isDirectory(ZooPath parentPath) {
+
         ZkClient connect = connect(currentHost);
         List<String> list = connect.getChildren(parentPath.getFullName());
         return !list.isEmpty();
@@ -63,12 +65,13 @@ public class ZkClientHelper {
 
 
     public static String getNodeData(String path) {
+        String data = null;
         ZkClient connect = connect(currentHost);
         if (connect.exists(path)) {
-            String data = connect.readData(path, true);
-            return data;
+            data = connect.readData(path, true);
         }
-        return null;
+        logger.debug("get Node Data {}: {}", path, data);
+        return data;
     }
 
 
@@ -78,21 +81,24 @@ public class ZkClientHelper {
         if (connect.exists(path)) {
             connect.create(("/".equals(path) ? "" : path) + "/" + nodeName, nodeValue,
                     ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.fromFlag(createMode));
+            logger.debug("add Node {}, data:{}", path, nodeValue);
         }
     }
 
-    public static void removeNode(String path, int version) throws Exception{
+    public static void removeNode(String path, int version) throws Exception {
         ZkClient connect = connect(currentHost);
         if (connect.exists(path)) {
             connect.delete(path, version);
+            logger.debug("remove Node {}, version:{}", path, version);
         }
     }
 
 
-    public static void updateNodeData(String path, String data, int version) {
+    public static void updateNodeData(String path, String data, int version) throws Exception{
         ZkClient connect = connect(currentHost);
         if (connect.exists(path)) {
             connect.writeData(path, data, version);
+            logger.debug("remove Node {}, version:{}", path, version);
         }
     }
 

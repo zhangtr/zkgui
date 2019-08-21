@@ -2,7 +2,8 @@
 
 <Configuration status="WARN">
     <Properties>
-        <Property name="filename">zkgui.log</Property>
+        <Property name="filename">../log/zkgui.log</Property>
+        <Property name="opfile">../log/oplog.log</Property>
     </Properties>
     <Appenders>
         <Console name="STDOUT" target="SYSTEM_OUT">
@@ -11,11 +12,18 @@
         <File name="File" fileName="${filename}">
             <PatternLayout pattern="[%d{YYYY-MM-dd HH:mm:ss.SSS}] [%-5level] [%t] [%logger{36}] %msg%n"/>
         </File>
+        <File name="OP" fileName="${opfile}">
+            <PatternLayout pattern="[%d{YYYY-MM-dd HH:mm:ss.SSS}] %msg%n"/>
+        </File>
     </Appenders>
     <Loggers>
+        <Logger name="com.teedao.zkgui.service.ZkService" level="INFO"  additivity="false">
+            <AppenderRef ref="OP"/>
+        </Logger>
+
         <Root level="debug">
-            <AppenderRef ref="STDOUT"/>
-            <AppenderRef ref="File"/>
+            <Appender-ref ref="STDOUT" />
+            <Appender-ref ref="File"/>
         </Root>
     </Loggers>
 </Configuration>

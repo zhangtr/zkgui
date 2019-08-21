@@ -95,40 +95,40 @@ public class MainViewController implements Initializable {
     }
 
     private void reLoadZooTree(String uri) {
-        try {
-            ZkClientHelper.current(uri);
-            nodeTree.setCellFactory(LazyTreeCell.forTreeView("Loading...", MainViewController::pathToString));
-            TreeViewUtils.installSelectionBugWorkaround(nodeTree);
-            ZooPath fsRoot = new ZooPath(null, "/");
-            nodeTree.getRoot().getChildren().setAll(new LoadingTreeItem<>(fsRoot, new DirectoryLoader(fsRoot)));
-            ContextMenu contextFileMenu = new ContextMenu();
-            contextFileMenu.getItems().addAll(getContextMenuList(nodeTree));
-            nodeTree.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent me) -> {
-                if (me.getButton() == MouseButton.SECONDARY || me.isControlDown()) {
-                    contextFileMenu.show(root, me.getScreenX(), me.getScreenY());
-                } else {
-                    contextFileMenu.hide();
+        ZkClientHelper.current(uri);
+        nodeTree.setCellFactory(LazyTreeCell.forTreeView("Loading...", MainViewController::pathToString));
+        TreeViewUtils.installSelectionBugWorkaround(nodeTree);
+        ZooPath fsRoot = new ZooPath(null, "/");
+        nodeTree.getRoot().getChildren().setAll(new LoadingTreeItem<>(fsRoot, new DirectoryLoader(fsRoot)));
+        ContextMenu contextFileMenu = new ContextMenu();
+        contextFileMenu.getItems().addAll(getContextMenuList(nodeTree));
+        nodeTree.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent me) -> {
+            if (me.getButton() == MouseButton.SECONDARY || me.isControlDown()) {
+                contextFileMenu.show(root, me.getScreenX(), me.getScreenY());
+            } else {
+                contextFileMenu.hide();
+            }
+            if (me.getButton() == MouseButton.PRIMARY) {
+                Node node = me.getPickResult().getIntersectedNode();
+                if (node instanceof Text || (node instanceof TreeCell && ((TreeCell) node).getText() != null)) {
+                    TreeItem<ZooPath> selectItem = nodeTree.getSelectionModel().getSelectedItem();
+                    currentPath = selectItem.getValue();
+                    NodeDetailInfo nodeDetail = ZkService.getNodeDetail(currentPath);
+                    bindNodeMete(nodeDetail);
+                    logger.debug("node :{}", nodeDetail);
                 }
-                if (me.getButton() == MouseButton.PRIMARY) {
-                    Node node = me.getPickResult().getIntersectedNode();
-                    if (node instanceof Text || (node instanceof TreeCell && ((TreeCell) node).getText() != null)) {
-                        TreeItem<ZooPath> selectItem = nodeTree.getSelectionModel().getSelectedItem();
-                        currentPath = selectItem.getValue();
-                        NodeDetailInfo nodeDetail = ZkService.getNodeDetail(currentPath);
-                        bindNodeMete(nodeDetail);
-                        logger.debug("node :{}", nodeDetail);
-                    }
-                }
-            });
-            submitBtn.setOnAction(actionEvent -> {
-                if (currentPath != null) {
-                    String value = nodeDataText.textProperty().getValue();
+            }
+        });
+        submitBtn.setOnAction(actionEvent -> {
+            if (currentPath != null) {
+                String value = nodeDataText.textProperty().getValue();
+                try {
                     ZkService.updateNode(currentPath.getFullName(), value);
+                } catch (Exception e) {
+                    logger.error("update Node Error", e);
                 }
-            });
-        } catch (Exception e) {
-            logger.error("异常", e);
-        }
+            }
+        });
     }
 
     private void bindNodeMete(NodeDetailInfo nodeDetail) {
