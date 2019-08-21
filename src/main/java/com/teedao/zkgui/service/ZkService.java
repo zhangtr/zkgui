@@ -30,7 +30,7 @@ public class ZkService {
     public static void addNode(NewNodeRequest request) throws Exception {
         int model = CREATE_MODEL_MAP.get(request.getMode());
         ZooPath parent = request.getParent();
-        String path = parent == null ? "/" : parent.getFullName() + request.getName();
+        String path = (parent == null ? "/" : parent.getFullName() + "/") + request.getName();
         ZkClientHelper.addNode(parent == null ? "/" : parent.getFullName(), request.getName(), request.getValue(), model);
         logger.info("add Node , path: {} , value :{} , model : {}", path, request.getValue(), request.getMode());
     }
