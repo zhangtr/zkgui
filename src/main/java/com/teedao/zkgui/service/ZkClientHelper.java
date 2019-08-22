@@ -57,10 +57,10 @@ public class ZkClientHelper {
 
 
     public static boolean isDirectory(ZooPath parentPath) {
-
         ZkClient connect = connect(currentHost);
-        List<String> list = connect.getChildren(parentPath.getFullName());
-        return !list.isEmpty();
+        Map.Entry<List<ACL>, Stat> acl = connect.getAcl(parentPath.getFullName());
+        Stat stat = acl.getValue();
+        return stat.getNumChildren() == 0 ? false : true;
     }
 
 
@@ -94,7 +94,7 @@ public class ZkClientHelper {
     }
 
 
-    public static void updateNodeData(String path, String data, int version) throws Exception{
+    public static void updateNodeData(String path, String data, int version) throws Exception {
         ZkClient connect = connect(currentHost);
         if (connect.exists(path)) {
             connect.writeData(path, data, version);

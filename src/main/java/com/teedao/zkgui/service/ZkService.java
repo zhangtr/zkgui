@@ -32,14 +32,15 @@ public class ZkService {
         ZooPath parent = request.getParent();
         String path = (parent == null ? "/" : parent.getFullName() + "/") + request.getName();
         ZkClientHelper.addNode(parent == null ? "/" : parent.getFullName(), request.getName(), request.getValue(), model);
-        logger.info("add Node , path: {} , value :{} , model : {}", path, request.getValue(), request.getMode());
+        logger.info("add [path: {} , value :{} , model : {}]", path, request.getValue(), request.getMode());
     }
 
     public static void updateNode(String path, String data) throws Exception {
         NodeMetaData metaData = ZkClientHelper.getNodeMetaData(path);
         int version = metaData.getDataVersion();
+        String nodeData = ZkClientHelper.getNodeData(path);
         ZkClientHelper.updateNodeData(path, data, version);
-        logger.info("update Node value , path:{} ,before{} , after:{}", path, ZkClientHelper.getNodeData(path), data);
+        logger.info("update [path:{} ,before{} , after:{}]", path, nodeData, data);
 
     }
 
@@ -47,9 +48,10 @@ public class ZkService {
     public static void removeNode(ZooPath zooPath) throws Exception {
         String path = zooPath.getFullName();
         NodeMetaData metaData = ZkClientHelper.getNodeMetaData(path);
+        String nodeData = ZkClientHelper.getNodeData(path);
         int version = metaData.getDataVersion();
         ZkClientHelper.removeNode(path, version);
-        logger.info("remove Node, path : {} , version :{} ", path, version);
+        logger.info("remove [path : {} , value : {} , version :{}]", path, nodeData, version);
 
     }
 
